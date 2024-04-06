@@ -1,0 +1,15 @@
+@use "../util" as *;
+
+.header {
+    @include breakpoint(large) {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    &__rubrics_item {
+        padding: rem(22) 0 rem(15);
+        margin: 0 rem(24) 0 0;
+        color: var(--font-white);
+        font-family: var(--font-albert-sans);
+    }
+}
