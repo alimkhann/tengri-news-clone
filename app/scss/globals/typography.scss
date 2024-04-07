@@ -8,9 +8,17 @@ a,
 a:visited,
 a:active {
     text-decoration: none;
+    color: var(--font-white);
     @include breakpoint(large) {
         font-size: rem(18);
     }
-    padding-top: rem(22);
-    padding-bottom: rem(15);
+}
+
+.header__sub__rubrics__item {
+    padding: rem(22) 0 rem(15);
+}
+
+.header__sub__links a,
+i {
+    font-size: rem(12);
 }

@@ -1,5 +1,46 @@
 @use "../util/" as *;
 
+.header {
+    &__sub {
+        @include breakpoint(large) {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        &__rubrics {
+            display: flex;
+            align-items: center;
+            padding-left: rem(24);
+            &__item {
+                margin-right: rem(24);
+            }
+        }
+
+        &__links {
+            display: flex;
+            align-items: center;
+            &__item {
+                display: flex;
+                align-items: center;
+                flex-direction: row;
+                margin: 0 rem(12);
+                img {
+                    margin: 0 rem(5);
+                }
+                &--exchange-rates {
+                    .tn-course {
+                        margin-left: rem(6);
+                    }
+                }
+                &--weather {
+                    display: flex;
+                    align-items: center;
+                }
+            }
+        }
+    }
+}
+
 .container {
     padding: 0 rem(16);
     max-width: rem(1344);
@@ -8,8 +49,4 @@
     @include breakpoint(large) {
         padding: 0;
     }
-}
-
-header {
-    height: rem(60);
 }
