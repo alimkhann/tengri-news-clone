@@ -8,17 +8,69 @@ a,
 a:visited,
 a:active {
     text-decoration: none;
-    color: var(--font-white);
-    @include breakpoint(large) {
+    color: var(--font-black);
+    @include breakpoint_min(xlarge) {
         font-size: rem(18);
     }
 }
 
+.header a {
+    color: var(--font-white);
+}
+
 .header__sub__rubrics__item {
+    font-family: Inter Regular;
     padding: rem(22) 0 rem(15);
 }
 
 .header__sub__links a,
 i {
     font-size: rem(12);
+}
+
+.menu a {
+    font-size: rem(14);
+}
+
+.menu__nav a {
+    margin: 0 rem(10);
+}
+
+a.menu__logo {
+    margin: 0 rem(48) 0 rem(24);
+}
+
+.urgent-news div {
+    height: rem(36);
+    color: var(--font-white);
+    text-align: center;
+    font-size: rem(14);
+    line-height: rem(20);
+    letter-spacing: rem(-0.14);
+
+    @include breakpoint_min(small) {
+        height: rem(24);
+        color: var(--font-white);
+        text-align: center;
+        font-size: rem(16);
+        line-height: rem(24);
+        letter-spacing: rem(-0.16);
+    }
+}
+
+.news-grid {
+    &__item {
+        &__main {
+            &--title a {
+                color: var(--font-white);
+                font-size: rem(30);
+                line-height: rem(36);
+            }
+
+            &--meta {
+                color: var(--font-white);
+                font-size: rem(12);
+            }
+        }
+    }
 }

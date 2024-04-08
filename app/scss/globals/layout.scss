@@ -2,10 +2,12 @@
 
 .header {
     &__sub {
-        @include breakpoint(large) {
-            display: flex;
-            justify-content: space-between;
+        @include breakpoint_max(small) {
+            display: none;
         }
+
+        display: flex;
+        justify-content: space-between;
 
         &__rubrics {
             display: flex;
@@ -36,17 +38,170 @@
                     display: flex;
                     align-items: center;
                 }
+
+                @include breakpoint_max(large) {
+                    display: flex;
+                    justify-content: space-between;
+
+                    .header__sub__links__item--exchange-rates,
+                    .header__sub__links__item--weather {
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.menu {
+    display: flex;
+    justify-content: space-between;
+    padding: rem(8) rem(24);
+
+    &__logo {
+        margin: 0 rem(48) 0 rem(24);
+    }
+
+    &__nav {
+        display: flex;
+        align-items: center;
+
+        &__item {
+            @include breakpoint_max(small) {
+                display: none;
+            }
+        }
+    }
+
+    div.menu__btns {
+        height: rem(36);
+    }
+
+    &__btns {
+        img {
+            margin-left: rem(12);
+        }
+    }
+}
+
+.urgent-news {
+    height: rem(40);
+    display: grid;
+    padding: 0 rem(5);
+    align-items: center;
+    grid-template-columns: auto rem(24);
+    gap: rem(8);
+
+    &__btn {
+        @include breakpoint_max(medium) {
+            display: none;
+        }
+    }
+}
+
+.news-list-flex {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: rem(32) rem(24);
+    gap: rem(24);
+}
+
+.news-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    grid-template-areas:
+        "marticle marticle marticle"
+        "marticle marticle marticle"
+        "sarticle1 sarticle2 sarticle3"
+        "sarticle4 sarticle5 sarticle6";
+    gap: rem(24);
+
+    img {
+        overflow-clip-margin: content-box;
+        overflow: clip;
+        width: 100%;
+        height: auto;
+    }
+
+    .main-article {
+        grid-area: marticle;
+    }
+
+    .secondary-article1 {
+        grid-area: sarticle1;
+    }
+
+    .secondary-article2 {
+        grid-area: sarticle2;
+    }
+
+    .secondary-article3 {
+        grid-area: sarticle3;
+    }
+
+    .secondary-article4 {
+        grid-area: sarticle4;
+    }
+
+    .secondary-article5 {
+        grid-area: sarticle5;
+    }
+
+    .secondary-article6 {
+        grid-area: sarticle6;
+    }
+
+    &__item {
+        position: relative;
+
+        &__main {
+            &--title {
+                position: absolute;
+                bottom: rem(44);
+                left: rem(28);
+                margin: 0 rem(24) rem(26) 0;
+            }
+
+            &--meta {
+                position: absolute;
+                bottom: rem(15);
+                left: rem(32);
+                margin: rem(16) 0 0;
             }
         }
     }
 }
 
 .container {
-    padding: 0 rem(16);
-    max-width: rem(1344);
+    padding: 0 0;
+    max-width: 100%;
     margin: 0 auto;
 
-    @include breakpoint(large) {
-        padding: 0;
+    @include breakpoint_max(small) {
+        max-width: 100%;
+    }
+
+    @include breakpoint_min(small) {
+        @include breakpoint_max(medium) {
+            max-width: 100%;
+        }
+    }
+
+    @include breakpoint_min(medium) {
+        @include breakpoint_max(large) {
+            max-width: rem(1024);
+        }
+    }
+
+    @include breakpoint_min(large) {
+        @include breakpoint_max(xlarge) {
+            max-width: rem(1200);
+        }
+    }
+
+    @include breakpoint_min(xlarge) {
+        max-width: rem(1344);
     }
 }
