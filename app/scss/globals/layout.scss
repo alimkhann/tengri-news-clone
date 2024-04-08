@@ -1,207 +1,210 @@
 @use "../util/" as *;
 
-.header {
-    &__sub {
-        @include breakpoint_max(small) {
-            display: none;
-        }
+.container {
+  padding: 0 0;
+  max-width: 100%;
+  margin: 0 auto;
 
-        display: flex;
-        justify-content: space-between;
+  @include breakpoint_max(small) {
+    max-width: 100%;
+  }
 
-        &__rubrics {
-            display: flex;
-            align-items: center;
-            padding-left: rem(24);
-            &__item {
-                margin-right: rem(24);
-            }
-        }
-
-        &__links {
-            display: flex;
-            align-items: center;
-            &__item {
-                display: flex;
-                align-items: center;
-                flex-direction: row;
-                margin: 0 rem(12);
-                img {
-                    margin: 0 rem(5);
-                }
-                &--exchange-rates {
-                    .tn-course {
-                        margin-left: rem(6);
-                    }
-                }
-                &--weather {
-                    display: flex;
-                    align-items: center;
-                }
-
-                @include breakpoint_max(large) {
-                    display: flex;
-                    justify-content: space-between;
-
-                    .header__sub__links__item--exchange-rates,
-                    .header__sub__links__item--weather {
-                        display: none;
-                    }
-                }
-            }
-        }
+  @include breakpoint_min(small) {
+    @include breakpoint_max(medium) {
+      max-width: 100%;
     }
+  }
+
+  @include breakpoint_min(medium) {
+    @include breakpoint_max(large) {
+      max-width: rem(1024);
+    }
+  }
+
+  @include breakpoint_min(large) {
+    @include breakpoint_max(xlarge) {
+      max-width: rem(1200);
+    }
+  }
+
+  @include breakpoint_min(xlarge) {
+    max-width: rem(1344);
+  }
 }
 
-.menu {
-    display: flex;
-    justify-content: space-between;
-    padding: rem(8) rem(24);
+.main-news {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: rem(32) rem(24);
+  gap: rem(24);
 
-    &__logo {
-        margin: 0 rem(48) 0 rem(24);
-    }
-
-    &__nav {
-        display: flex;
-        align-items: center;
-
-        &__item {
-            @include breakpoint_max(small) {
-                display: none;
-            }
-        }
-    }
-
-    div.menu__btns {
-        height: rem(36);
-    }
-
-    &__btns {
-        img {
-            margin-left: rem(12);
-        }
-    }
-}
-
-.urgent-news {
-    height: rem(40);
-    display: grid;
-    padding: 0 rem(5);
-    align-items: center;
-    grid-template-columns: auto rem(24);
-    gap: rem(8);
-
-    &__btn {
-        @include breakpoint_max(medium) {
-            display: none;
-        }
-    }
-}
-
-.news-list-flex {
-    display: flex;
+  @include breakpoint_min(small) {
     flex-direction: row;
-    justify-content: space-between;
-    padding: rem(32) rem(24);
-    gap: rem(24);
+  }
 }
 
 .news-grid {
-    display: grid;
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-template-rows: rem(332.6) repeat(6, 1fr);
+  gap: rem(16);
+  grid-template-areas:
+    "b"
+    "s1"
+    "s2"
+    "s3"
+    "s4"
+    "s5"
+    "s6";
+
+  .card--big {
+    grid-area: b;
+  }
+
+  .s1 {
+    grid-area: s1;
+  }
+
+  .s2 {
+    grid-area: s2;
+  }
+
+  .s3 {
+    grid-area: s3;
+  }
+
+  .s4 {
+    grid-area: s4;
+  }
+
+  .s5 {
+    grid-area: s5;
+  }
+
+  .s6 {
+    grid-area: s6;
+  }
+
+  @include breakpoint_min(medium) {
+    @include breakpoint_max(large) {
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: rem(168) rem(168) rem(283) rem(283) rem(283);
+      gap: rem(24);
+      grid-template-areas:
+        "b b"
+        "b b"
+        "s1 s2"
+        "s3 s4"
+        "s5 s6";
+
+      .card--big {
+        grid-area: b;
+      }
+
+      .s1 {
+        grid-area: s1;
+      }
+
+      .s2 {
+        grid-area: s2;
+      }
+
+      .s3 {
+        grid-area: s3;
+      }
+
+      .s4 {
+        grid-area: s4;
+      }
+
+      .s5 {
+        grid-area: s5;
+      }
+
+      .s6 {
+        grid-area: s6;
+      }
+    }
+  }
+
+  @include breakpoint_min(large) {
+    @include breakpoint_max(xlarge) {
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: rem(228) rem(228) rem(283) rem(283);
+      gap: rem(24);
+      grid-template-areas:
+        "b b b"
+        "b b b"
+        "s1 s2 s3"
+        "s4 s5 s6";
+
+      .card--big {
+        grid-area: b;
+      }
+
+      .s1 {
+        grid-area: s1;
+      }
+
+      .s2 {
+        grid-area: s2;
+      }
+
+      .s3 {
+        grid-area: s3;
+      }
+
+      .s4 {
+        grid-area: s4;
+      }
+
+      .s5 {
+        grid-area: s5;
+      }
+
+      .s6 {
+        grid-area: s6;
+      }
+    }
+  }
+
+  @include breakpoint_min(xlarge) {
     grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(4, 1fr);
-    grid-template-areas:
-        "marticle marticle marticle"
-        "marticle marticle marticle"
-        "sarticle1 sarticle2 sarticle3"
-        "sarticle4 sarticle5 sarticle6";
+    grid-template-rows: rem(258) rem(258) rem(283) rem(283);
     gap: rem(24);
+    grid-template-areas:
+      "b b b"
+      "b b b"
+      "s1 s2 s3"
+      "s4 s5 s6";
 
-    img {
-        overflow-clip-margin: content-box;
-        overflow: clip;
-        width: 100%;
-        height: auto;
+    .card--big {
+      grid-area: b;
     }
 
-    .main-article {
-        grid-area: marticle;
+    .s1 {
+      grid-area: s1;
     }
 
-    .secondary-article1 {
-        grid-area: sarticle1;
+    .s2 {
+      grid-area: s2;
     }
 
-    .secondary-article2 {
-        grid-area: sarticle2;
+    .s3 {
+      grid-area: s3;
     }
 
-    .secondary-article3 {
-        grid-area: sarticle3;
+    .s4 {
+      grid-area: s4;
     }
 
-    .secondary-article4 {
-        grid-area: sarticle4;
+    .s5 {
+      grid-area: s5;
     }
 
-    .secondary-article5 {
-        grid-area: sarticle5;
+    .s6 {
+      grid-area: s6;
     }
-
-    .secondary-article6 {
-        grid-area: sarticle6;
-    }
-
-    &__item {
-        position: relative;
-
-        &__main {
-            &--title {
-                position: absolute;
-                bottom: rem(44);
-                left: rem(28);
-                margin: 0 rem(24) rem(26) 0;
-            }
-
-            &--meta {
-                position: absolute;
-                bottom: rem(15);
-                left: rem(32);
-                margin: rem(16) 0 0;
-            }
-        }
-    }
-}
-
-.container {
-    padding: 0 0;
-    max-width: 100%;
-    margin: 0 auto;
-
-    @include breakpoint_max(small) {
-        max-width: 100%;
-    }
-
-    @include breakpoint_min(small) {
-        @include breakpoint_max(medium) {
-            max-width: 100%;
-        }
-    }
-
-    @include breakpoint_min(medium) {
-        @include breakpoint_max(large) {
-            max-width: rem(1024);
-        }
-    }
-
-    @include breakpoint_min(large) {
-        @include breakpoint_max(xlarge) {
-            max-width: rem(1200);
-        }
-    }
-
-    @include breakpoint_min(xlarge) {
-        max-width: rem(1344);
-    }
+  }
 }

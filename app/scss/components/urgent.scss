@@ -1,0 +1,16 @@
+@use "../util/" as *;
+
+.urgent-news {
+    height: rem(40);
+    display: grid;
+    padding: 0 rem(5);
+    align-items: center;
+    grid-template-columns: auto rem(24);
+    gap: rem(8);
+
+    &__btn {
+        @include breakpoint_max(medium) {
+            display: none;
+        }
+    }
+}

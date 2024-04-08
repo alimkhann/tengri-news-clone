@@ -1,0 +1,83 @@
+@use "../util" as *;
+
+.card {
+  position: relative;
+
+  &__img {
+    border-radius: rem(4);
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  &__meta {
+    margin: rem(16) 0 0;
+  }
+
+  a,
+  img {
+    display: block;
+  }
+
+  &--big {
+    width: 100%;
+
+    .card__title,
+    .card__meta {
+      position: relative;
+    }
+
+    .card__title {
+      bottom: rem(128);
+      left: rem(28);
+      display: flex;
+      margin: 0 rem(24) rem(16) 0;
+      line-height: rem(36);
+      font-size: rem(30);
+    }
+
+    .card__meta {
+      bottom: rem(120);
+      left: rem(32);
+      display: flex;
+      font-size: rem(12);
+      color: var(--font-white);
+      > * {
+        margin-left: rem(24);
+        margin-right: rem(4);
+      }
+    }
+
+    a {
+      color: var(--font-white);
+    }
+  }
+
+  &--small {
+    width: 100%;
+
+    .card__title {
+      font-size: rem(18);
+      line-height: rem(24);
+      a {
+        margin-top: rem(16);
+      }
+    }
+
+    .card__meta {
+      bottom: rem(15);
+      left: rem(32);
+      display: flex;
+      font-size: rem(12);
+      color: var(--meta-gray);
+      > * {
+        margin-left: rem(24);
+        margin-right: rem(4);
+      }
+    }
+
+    a {
+      color: var(--font-black);
+    }
+  }
+}

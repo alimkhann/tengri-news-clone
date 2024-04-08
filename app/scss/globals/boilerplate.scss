@@ -1,26 +1,26 @@
 html {
-    font-size: 100%;
-    box-sizing: border-box;
+  font-size: 100%;
+  box-sizing: border-box;
 }
 
 *,
 *::before,
 *::after {
-    box-sizing: inherit;
-}
-
-header {
-    background: var(--header-darkcharcoal);
-    color: var(--font-white);
+  box-sizing: inherit;
 }
 
 body {
-    margin: 0;
-    padding: 0;
-    font-family: var(--font-inter);
-    background: var(--sides-antiflashwhite);
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-inter);
+  background: var(--sides-antiflashwhite);
 }
 
 .urgent-news {
-    background: var(--accent-islamicgreen);
+  background: var(--accent-islamicgreen);
+}
+
+img {
+  overflow-clip-margin: content-box;
+  overflow: clip;
 }

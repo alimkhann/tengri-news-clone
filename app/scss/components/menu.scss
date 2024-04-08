@@ -1,0 +1,32 @@
+@use "../util/" as *;
+
+.menu {
+    display: flex;
+    justify-content: space-between;
+    padding: rem(8) rem(24);
+
+    &__logo {
+        margin: 0 rem(48) 0 rem(24);
+    }
+
+    &__nav {
+        display: flex;
+        align-items: center;
+
+        &__item {
+            @include breakpoint_max(small) {
+                display: none;
+            }
+        }
+    }
+
+    div.menu__btns {
+        height: rem(36);
+    }
+
+    &__btns {
+        img {
+            margin-left: rem(12);
+        }
+    }
+}

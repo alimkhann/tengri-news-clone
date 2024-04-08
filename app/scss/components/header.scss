@@ -1,0 +1,85 @@
+@use "../util/" as *;
+
+.header {
+  background: var(--header-darkcharcoal);
+
+  &__sub {
+    @include breakpoint_max(small) {
+      display: none;
+    }
+
+    display: flex;
+    justify-content: space-between;
+
+    &__rubrics {
+      display: flex;
+      align-items: center;
+      padding-left: rem(24);
+      &__item {
+        margin-right: rem(24);
+        border-bottom: rem(4) solid transparent;
+      }
+    }
+
+    &__links {
+      display: flex;
+      align-items: center;
+      &__item {
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        margin: 0 rem(12);
+        img {
+          margin: 0 rem(5);
+        }
+        &--exchange-rates {
+          .tn-course {
+            margin-left: rem(6);
+          }
+        }
+        &--weather {
+          display: flex;
+          align-items: center;
+        }
+
+        @include breakpoint_max(large) {
+          display: flex;
+          justify-content: space-between;
+
+          .header__sub__links__item--exchange-rates,
+          .header__sub__links__item--weather {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+}
+
+.news:hover {
+  border-bottom: rem(4) solid var(--accent-islamicgreen);
+}
+
+.life:hover {
+  border-bottom: rem(4) solid var(--life-tiffanyblue);
+}
+
+.sport:hover {
+  border-bottom: rem(4) solid var(--sport-scarlet);
+}
+
+.travel:hover {
+  border-bottom: rem(4) solid var(--travel-ultramarineblue);
+}
+
+.guide:hover {
+  border-bottom: rem(4) solid var(--accent-islamicgreen);
+}
+
+.edu:hover {
+  border-bottom: rem(4) solid var(--education-tawny);
+}
+
+.auto:hover {
+  border-bottom: rem(4) solid var(--auto-naplesyellow);
+}
