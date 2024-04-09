@@ -38,7 +38,7 @@
   justify-content: space-between;
   padding: rem(32) rem(24);
   gap: rem(24);
-
+  background-color: var(--background-white);
   @include breakpoint_min(small) {
     flex-direction: row;
   }
@@ -46,9 +46,8 @@
 
 .news-grid {
   display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  grid-template-rows: rem(332.6) repeat(6, 1fr);
   gap: rem(16);
+  grid-template-columns: repeat(1, 1fr);
   grid-template-areas:
     "b"
     "s1"
@@ -86,10 +85,25 @@
     grid-area: s6;
   }
 
+  @media screen and (max-width: rem(320)) {
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: rem(153) repeat(6, 1fr);
+  }
+
+  @media screen and (min-width: rem(321)) and (max-width: rem(375)) {
+    grid-template-rows: rem(184) repeat(6, 1fr);
+  }
+
+  @media screen and (min-width: rem(376)) and (max-width: rem(425)) {
+    grid-template-rows: rem(212) repeat(6, 1fr);
+  }
+
+  grid-template-rows: rem(331) repeat(6, 1fr);
+
   @include breakpoint_min(medium) {
     @include breakpoint_max(large) {
-      grid-template-columns: repeat(2, 1fr);
-      grid-template-rows: rem(168) rem(168) rem(283) rem(283) rem(283);
+      grid-template-columns: repeat(2, rem(304));
+      grid-template-rows: rem(168) rem(168) rem(303) rem(303) rem(303);
       gap: rem(24);
       grid-template-areas:
         "b b"
@@ -97,40 +111,12 @@
         "s1 s2"
         "s3 s4"
         "s5 s6";
-
-      .card--big {
-        grid-area: b;
-      }
-
-      .s1 {
-        grid-area: s1;
-      }
-
-      .s2 {
-        grid-area: s2;
-      }
-
-      .s3 {
-        grid-area: s3;
-      }
-
-      .s4 {
-        grid-area: s4;
-      }
-
-      .s5 {
-        grid-area: s5;
-      }
-
-      .s6 {
-        grid-area: s6;
-      }
     }
   }
 
   @include breakpoint_min(large) {
     @include breakpoint_max(xlarge) {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(3, rem(270));
       grid-template-rows: rem(228) rem(228) rem(283) rem(283);
       gap: rem(24);
       grid-template-areas:
@@ -138,73 +124,49 @@
         "b b b"
         "s1 s2 s3"
         "s4 s5 s6";
-
-      .card--big {
-        grid-area: b;
-      }
-
-      .s1 {
-        grid-area: s1;
-      }
-
-      .s2 {
-        grid-area: s2;
-      }
-
-      .s3 {
-        grid-area: s3;
-      }
-
-      .s4 {
-        grid-area: s4;
-      }
-
-      .s5 {
-        grid-area: s5;
-      }
-
-      .s6 {
-        grid-area: s6;
-      }
     }
   }
 
   @include breakpoint_min(xlarge) {
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: rem(258) rem(258) rem(283) rem(283);
+    grid-template-columns: repeat(3, rem(305));
+    grid-template-rows: rem(258) rem(258) rem(303) rem(303);
     gap: rem(24);
     grid-template-areas:
       "b b b"
       "b b b"
       "s1 s2 s3"
       "s4 s5 s6";
+  }
+}
 
-    .card--big {
-      grid-area: b;
-    }
+.scroll-news {
+  width: 94%;
 
-    .s1 {
-      grid-area: s1;
+  @include breakpoint_min(small) {
+    @include breakpoint_max(large) {
+      width: rem(304);
     }
+  }
 
-    .s2 {
-      grid-area: s2;
+  @include breakpoint_min(large) {
+    @include breakpoint_max(xlarge) {
+      width: rem(270);
     }
+  }
 
-    .s3 {
-      grid-area: s3;
-    }
+  @include breakpoint_min(xlarge) {
+    width: rem(306);
+  }
 
-    .s4 {
-      grid-area: s4;
-    }
+  &__buttons {
+    display: flex;
+  }
 
-    .s5 {
-      grid-area: s5;
-    }
-
-    .s6 {
-      grid-area: s6;
-    }
+  &__list {
+    display: block;
+    max-height: rem(835);
+    padding: 0 rem(4) 0 0;
+    overflow: hidden;
+    overflow-y: auto;
   }
 }

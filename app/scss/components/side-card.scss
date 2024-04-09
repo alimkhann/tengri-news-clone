@@ -1,0 +1,33 @@
+@use "../util/" as *;
+
+.side-card {
+  position: relative;
+  width: auto;
+  margin: 0;
+  padding: rem(8) 0;
+  border-bottom: rem(1) solid var(--border-brightgray);
+
+  &__title {
+    font-size: rem(16);
+    margin: rem(8) 0;
+
+    a {
+      width: 100%;
+      overflow: hidden;
+    }
+  }
+
+  &__meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: rem(8) rem(4) rem(8) 0;
+    color: #7f8188;
+    font-size: rem(12);
+    &__vc {
+      img {
+        margin-left: rem(8);
+      }
+    }
+  }
+}

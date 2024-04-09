@@ -1,32 +1,75 @@
-@use "../util/" as *;
+@use "../util" as *;
+
+$menu-padding-small: rem(11) rem(16);
+$menu-padding-medium: rem(8) rem(24);
+$menu-logo-margin-small: 0 rem(48) 0 rem(24);
 
 .menu {
+  display: flex;
+  justify-content: space-between;
+  padding: $menu-padding-small;
+  background-color: var(--background-white);
+
+  @include breakpoint_min(medium) {
+    padding: $menu-padding-medium;
+  }
+
+  &__burger {
+    @include breakpoint_max(small) {
+      display: none;
+    }
+  }
+
+  &__logo {
+    @include breakpoint_max(small) {
+      display: flex;
+      img {
+        width: rem(158);
+      }
+    }
+
+    @include breakpoint_min(small) {
+      margin: $menu-logo-margin-small;
+    }
+  }
+
+  &__nav {
     display: flex;
-    justify-content: space-between;
-    padding: rem(8) rem(24);
+    align-items: center;
 
-    &__logo {
-        margin: 0 rem(48) 0 rem(24);
+    &__item {
+      @include breakpoint_max(small) {
+        display: none;
+      }
+    }
+  }
+
+  div.menu__btns {
+    @include breakpoint_max(small) {
+      display: flex;
+      align-items: center;
+      img {
+        width: rem(25);
+      }
+      a {
+        height: rem(25);
+      }
     }
 
-    &__nav {
-        display: flex;
-        align-items: center;
-
-        &__item {
-            @include breakpoint_max(small) {
-                display: none;
-            }
-        }
+    @include breakpoint_min(small) {
+      height: rem(36);
     }
+  }
 
-    div.menu__btns {
-        height: rem(36);
+  &__btns {
+    img {
+      margin-left: rem(12);
     }
+  }
 
-    &__btns {
-        img {
-            margin-left: rem(12);
-        }
+  a {
+    @include breakpoint_max(small) {
+      margin: 0;
     }
+  }
 }

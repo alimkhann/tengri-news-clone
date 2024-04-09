@@ -1,0 +1,20 @@
+@use "../util/" as *;
+
+input[type="radio"] {
+  display: none;
+}
+
+label {
+  padding: rem(9) rem(39);
+  font-size: rem(12);
+  cursor: pointer;
+  border-radius: rem(4) rem(4) 0 0;
+  border-bottom: rem(1) solid var(--border-brightgray);
+  color: var(--font-brightgray);
+}
+
+input[type="radio"]:checked + label {
+  background-color: var(--accent-islamicgreen);
+  color: var(--font-white);
+  border-bottom: rem(1) solid var(--border-brightgray);
+}
