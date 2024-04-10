@@ -20,71 +20,9 @@
 
   <link rel="stylesheet" href="/dist/style.css" />
   <script defer src="dist/script.js"></script>
-  <script src="./dist/articles_data.json" type="application/json"></script>
 </head>
 
 <body>
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      fetch('./dist/articles_data.json')
-        .then((response) => response.json())
-        .then((json) => {
-          console.log(json);
-
-          // Grid View
-          const gridViewData = json.gridView;
-          const gridViewContainer = document.querySelector(".news-grid");
-
-          // const gridViewCard = document.querySelector(".card--big");
-          // gridViewCard.querySelector(".card__img").setAttribute("src", gridViewData.imageUrl);
-          // gridViewCard.querySelector(".card__title a").setAttribute("href", gridViewData.articleUrl);
-          // gridViewCard.querySelector(".card__title a").innerText = gridViewData.title;
-          // gridViewCard.querySelector(".card__meta").innerHTML = `${gridViewData.time}<img src="images/svgs/viewings.svg">${gridViewData.views}<img src="images/svgs/comments.svg">${gridViewData.comments}`;
-
-          gridViewData.forEach((item) => {
-            const card = document.createElement("div");
-            card.classList.add("card", "card--small");
-            card.innerHTML = `
-              <a href="${item.articleUrl}">
-                <img class="card__img" src="${item.imageUrl}">
-              </a>
-              <span class="card__title">
-                <a href="${item.articleUrl}">${item.title}</a>
-              </span>
-              <div class="card__meta">
-                ${item.time}<img src="images/svgs/viewings.svg">${item.views}<img src="images/svgs/comments.svg">${item.comments}
-              </div>
-            `;
-            gridViewContainer.appendChild(card);
-          });
-
-          //   // Scroll View
-          //   const scrollViewData = json.scrollView;
-          //   const scrollViewContainer = document.querySelector(".scroll-news__list");
-
-          //   scrollViewData.forEach((item) => {
-          //     const sideCard = document.createElement("div");
-          //     sideCard.classList.add("side-card");
-          //     sideCard.innerHTML = `
-          //   <span class="side-card__title">
-          //     <a href="${item.articleUrl}">${item.title}</a>
-          //   </span>
-          //   <div class="side-card__meta">
-          //     ${item.time}<div class="side-card__meta__vc"><img src="images/svgs/viewings.svg">${item.views}<img class="side-card__meta--comment" src="images/svgs/comments.svg">${item.comments}</div>
-          //   </div>
-          // `;
-          //     scrollViewContainer.appendChild(sideCard);
-
-          // Scroll View
-          const scrollViewData = json.scrollView[1]; // Assuming there's only one item in scrollView array
-          const scrollViewCard = document.querySelector(".scroll-news__list .side-card");
-          scrollViewCard.querySelector(".side-card__title a").setAttribute("href", scrollViewData.articleUrl);
-          scrollViewCard.querySelector(".side-card__title a").innerText = scrollViewData.title;
-          scrollViewCard.querySelector(".side-card__meta").innerHTML = `${scrollViewData.time}<div class="side-card__meta__vc"><img src="images/svgs/viewings.svg">${scrollViewData.views}<img class="side-card__meta--comment" src="images/svgs/comments.svg">${scrollViewData.comments}</div>`;
-        });
-    });
-  </script>
-
   <header class="header">
     <div class="header__sub container">
       <div class="header__sub__rubrics">
@@ -182,7 +120,7 @@
     </a>
 
     <div class="main-news container">
-      <section class="news-grid">
+      <section class="news-grid" id="gridView">
       </section>
 
       <section class="scroll-news">
@@ -194,226 +132,7 @@
         </div>
 
         <div class="scroll-news__list">
-          <div class="side-card">
-            <span class="side-card__title">
-              <a href="">
-                Прорыв дамбы в Орске не представляет опасности для ЗКО – МЧС Казахстана
-              </a>
-            </span>
-            <div class="side-card__meta">
-              Сегодня 00:37
-              <div class="side-card__meta__vc">
-                <img src="images/svgs/viewings.svg">
-                760
-                <img class="side-card__meta--comment" src="images/svgs/comments.svg">
-                2
-              </div>
-            </div>
-          </div>
-
-          <div class="side-card">
-            <span class="side-card__title">
-              <a href="">
-                Прорыв дамбы в Орске не представляет опасности для ЗКО – МЧС Казахстана
-              </a>
-            </span>
-            <div class="side-card__meta">
-              Сегодня 00:37
-              <div class="side-card__meta__vc">
-                <img src="images/svgs/viewings.svg">
-                760
-                <img class="side-card__meta--comment" src="images/svgs/comments.svg">
-                2
-              </div>
-            </div>
-          </div>
-
-          <div class="side-card">
-            <span class="side-card__title">
-              <a href="">
-                Прорыв дамбы в Орске не представляет опасности для ЗКО – МЧС Казахстана
-              </a>
-            </span>
-            <div class="side-card__meta">
-              Сегодня 00:37
-              <div class="side-card__meta__vc">
-                <img src="images/svgs/viewings.svg">
-                760
-                <img class="side-card__meta--comment" src="images/svgs/comments.svg">
-                2
-              </div>
-            </div>
-          </div>
-
-          <div class="side-card">
-            <span class="side-card__title">
-              <a href="">
-                Прорыв дамбы в Орске не представляет опасности для ЗКО – МЧС Казахстана
-              </a>
-            </span>
-            <div class="side-card__meta">
-              Сегодня 00:37
-              <div class="side-card__meta__vc">
-                <img src="images/svgs/viewings.svg">
-                760
-                <img class="side-card__meta--comment" src="images/svgs/comments.svg">
-                2
-              </div>
-            </div>
-          </div>
-
-          <div class="side-card">
-            <span class="side-card__title">
-              <a href="">
-                Прорыв дамбы в Орске не представляет опасности для ЗКО – МЧС Казахстана
-              </a>
-            </span>
-            <div class="side-card__meta">
-              Сегодня 00:37
-              <div class="side-card__meta__vc">
-                <img src="images/svgs/viewings.svg">
-                760
-                <img class="side-card__meta--comment" src="images/svgs/comments.svg">
-                2
-              </div>
-            </div>
-          </div>
-
-          <div class="side-card">
-            <span class="side-card__title">
-              <a href="">
-                Прорыв дамбы в Орске не представляет опасности для ЗКО – МЧС Казахстана
-              </a>
-            </span>
-            <div class="side-card__meta">
-              Сегодня 00:37
-              <div class="side-card__meta__vc">
-                <img src="images/svgs/viewings.svg">
-                760
-                <img class="side-card__meta--comment" src="images/svgs/comments.svg">
-                2
-              </div>
-            </div>
-          </div>
-
-          <div class="side-card">
-            <span class="side-card__title">
-              <a href="">
-                Прорыв дамбы в Орске не представляет опасности для ЗКО – МЧС Казахстана
-              </a>
-            </span>
-            <div class="side-card__meta">
-              Сегодня 00:37
-              <div class="side-card__meta__vc">
-                <img src="images/svgs/viewings.svg">
-                760
-                <img class="side-card__meta--comment" src="images/svgs/comments.svg">
-                2
-              </div>
-            </div>
-          </div>
-
-          <div class="side-card">
-            <span class="side-card__title">
-              <a href="">
-                Прорыв дамбы в Орске не представляет опасности для ЗКО – МЧС Казахстана
-              </a>
-            </span>
-            <div class="side-card__meta">
-              Сегодня 00:37
-              <div class="side-card__meta__vc">
-                <img src="images/svgs/viewings.svg">
-                760
-                <img class="side-card__meta--comment" src="images/svgs/comments.svg">
-                2
-              </div>
-            </div>
-          </div>
-
-          <div class="side-card">
-            <span class="side-card__title">
-              <a href="">
-                Прорыв дамбы в Орске не представляет опасности для ЗКО – МЧС Казахстана
-              </a>
-            </span>
-            <div class="side-card__meta">
-              Сегодня 00:37
-              <div class="side-card__meta__vc">
-                <img src="images/svgs/viewings.svg">
-                760
-                <img class="side-card__meta--comment" src="images/svgs/comments.svg">
-                2
-              </div>
-            </div>
-          </div>
-
-          <div class="side-card">
-            <span class="side-card__title">
-              <a href="">
-                Прорыв дамбы в Орске не представляет опасности для ЗКО – МЧС Казахстана
-              </a>
-            </span>
-            <div class="side-card__meta">
-              Сегодня 00:37
-              <div class="side-card__meta__vc">
-                <img src="images/svgs/viewings.svg">
-                760
-                <img class="side-card__meta--comment" src="images/svgs/comments.svg">
-                2
-              </div>
-            </div>
-          </div>
-
-          <div class="side-card">
-            <span class="side-card__title">
-              <a href="">
-                Прорыв дамбы в Орске не представляет опасности для ЗКО – МЧС Казахстана
-              </a>
-            </span>
-            <div class="side-card__meta">
-              Сегодня 00:37
-              <div class="side-card__meta__vc">
-                <img src="images/svgs/viewings.svg">
-                760
-                <img class="side-card__meta--comment" src="images/svgs/comments.svg">
-                2
-              </div>
-            </div>
-          </div>
-
-          <div class="side-card">
-            <span class="side-card__title">
-              <a href="">
-                Прорыв дамбы в Орске не представляет опасности для ЗКО – МЧС Казахстана
-              </a>
-            </span>
-            <div class="side-card__meta">
-              Сегодня 00:37
-              <div class="side-card__meta__vc">
-                <img src="images/svgs/viewings.svg">
-                760
-                <img class="side-card__meta--comment" src="images/svgs/comments.svg">
-                2
-              </div>
-            </div>
-          </div>
-
-          <div class="side-card">
-            <span class="side-card__title">
-              <a href="">
-                Прорыв дамбы в Орске не представляет опасности для ЗКО – МЧС Казахстана
-              </a>
-            </span>
-            <div class="side-card__meta">
-              Сегодня 00:37
-              <div class="side-card__meta__vc">
-                <img src="images/svgs/viewings.svg">
-                760
-                <img class="side-card__meta--comment" src="images/svgs/comments.svg">
-                2
-              </div>
-            </div>
-          </div>
+        </div>
       </section>
     </div>
   </main>
@@ -529,6 +248,9 @@
       </div>
     </div>
   </footer>
+
+  <script src="app/js/server.js"></script>
+  <script src="app/js/scrape.js"></script>
 </body>
 
 </html>
