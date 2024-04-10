@@ -20,9 +20,71 @@
 
   <link rel="stylesheet" href="/dist/style.css" />
   <script defer src="dist/script.js"></script>
+  <script src="./dist/articles_data.json" type="application/json"></script>
 </head>
 
 <body>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      fetch('./dist/articles_data.json')
+        .then((response) => response.json())
+        .then((json) => {
+          console.log(json);
+
+          // Grid View
+          const gridViewData = json.gridView;
+          const gridViewContainer = document.querySelector(".news-grid");
+
+          // const gridViewCard = document.querySelector(".card--big");
+          // gridViewCard.querySelector(".card__img").setAttribute("src", gridViewData.imageUrl);
+          // gridViewCard.querySelector(".card__title a").setAttribute("href", gridViewData.articleUrl);
+          // gridViewCard.querySelector(".card__title a").innerText = gridViewData.title;
+          // gridViewCard.querySelector(".card__meta").innerHTML = `${gridViewData.time}<img src="images/svgs/viewings.svg">${gridViewData.views}<img src="images/svgs/comments.svg">${gridViewData.comments}`;
+
+          gridViewData.forEach((item) => {
+            const card = document.createElement("div");
+            card.classList.add("card", "card--small");
+            card.innerHTML = `
+              <a href="${item.articleUrl}">
+                <img class="card__img" src="${item.imageUrl}">
+              </a>
+              <span class="card__title">
+                <a href="${item.articleUrl}">${item.title}</a>
+              </span>
+              <div class="card__meta">
+                ${item.time}<img src="images/svgs/viewings.svg">${item.views}<img src="images/svgs/comments.svg">${item.comments}
+              </div>
+            `;
+            gridViewContainer.appendChild(card);
+          });
+
+          //   // Scroll View
+          //   const scrollViewData = json.scrollView;
+          //   const scrollViewContainer = document.querySelector(".scroll-news__list");
+
+          //   scrollViewData.forEach((item) => {
+          //     const sideCard = document.createElement("div");
+          //     sideCard.classList.add("side-card");
+          //     sideCard.innerHTML = `
+          //   <span class="side-card__title">
+          //     <a href="${item.articleUrl}">${item.title}</a>
+          //   </span>
+          //   <div class="side-card__meta">
+          //     ${item.time}<div class="side-card__meta__vc"><img src="images/svgs/viewings.svg">${item.views}<img class="side-card__meta--comment" src="images/svgs/comments.svg">${item.comments}</div>
+          //   </div>
+          // `;
+          //     scrollViewContainer.appendChild(sideCard);
+
+          // Scroll View
+          const scrollViewData = json.scrollView[1]; // Assuming there's only one item in scrollView array
+          const scrollViewCard = document.querySelector(".scroll-news__list .side-card");
+          scrollViewCard.querySelector(".side-card__title a").setAttribute("href", scrollViewData.articleUrl);
+          scrollViewCard.querySelector(".side-card__title a").innerText = scrollViewData.title;
+          scrollViewCard.querySelector(".side-card__meta").innerHTML = `${scrollViewData.time}<div class="side-card__meta__vc"><img src="images/svgs/viewings.svg">${scrollViewData.views}<img class="side-card__meta--comment" src="images/svgs/comments.svg">${scrollViewData.comments}</div>`;
+        });
+    });
+  </script>
+
   <header class="header">
     <div class="header__sub container">
       <div class="header__sub__rubrics">
@@ -121,131 +183,6 @@
 
     <div class="main-news container">
       <section class="news-grid">
-        <div class="card card--big">
-          <a href="">
-            <img class="card__img" src="images/article-images/main-article.jpeg">
-          </a>
-          <span class="card__title">
-            <a href="">
-              Премьер постоянно информирует Токаева о ситуации с паводками
-            </a>
-          </span>
-          <div class="card__meta">
-            Вчера 20:53
-            <img src="images/svgs/viewings.svg">
-            9897
-            <img src="images/svgs/comments.svg">
-            8
-          </div>
-        </div>
-
-        <div class="card card--small s1">
-          <a href="">
-            <img class="card__img" src="images/article-images/main-article.jpeg">
-          </a>
-          <span class="card__title">
-            <a href="">
-              Премьер постоянно информирует Токаева о ситуации с паводками
-            </a>
-          </span>
-          <div class="card__meta">
-            Вчера 20:53
-            <img src="images/svgs/viewings.svg">
-            9897
-            <img src="images/svgs/comments.svg">
-            8
-          </div>
-        </div>
-
-        <div class="card card--small s2">
-          <a href="">
-            <img class="card__img" src="images/article-images/main-article.jpeg">
-          </a>
-          <span class="card__title">
-            <a href="">
-              Премьер постоянно информирует Токаева о ситуации с паводками
-            </a>
-          </span>
-          <div class="card__meta">
-            Вчера 20:53
-            <img src="images/svgs/viewings.svg">
-            9897
-            <img src="images/svgs/comments.svg">
-            8
-          </div>
-        </div>
-
-        <div class="card card--small s3">
-          <a href="">
-            <img class="card__img" src="images/article-images/main-article.jpeg">
-          </a>
-          <span class="card__title">
-            <a href="">
-              Премьер постоянно информирует Токаева о ситуации с паводками
-            </a>
-          </span>
-          <div class="card__meta">
-            Вчера 20:53
-            <img src="images/svgs/viewings.svg">
-            9897
-            <img src="images/svgs/comments.svg">
-            8
-          </div>
-        </div>
-
-        <div class="card card--small s4">
-          <a href="">
-            <img class="card__img" src="images/article-images/main-article.jpeg">
-          </a>
-          <span class="card__title">
-            <a href="">
-              Премьер постоянно информирует Токаева о ситуации с паводками
-            </a>
-          </span>
-          <div class="card__meta">
-            Вчера 20:53
-            <img src="images/svgs/viewings.svg">
-            9897
-            <img src="images/svgs/comments.svg">
-            8
-          </div>
-        </div>
-
-        <div class="card card--small s5">
-          <a href="">
-            <img class="card__img" src="images/article-images/main-article.jpeg">
-          </a>
-          <span class="card__title">
-            <a href="">
-              Премьер постоянно информирует Токаева о ситуации с паводками
-            </a>
-          </span>
-          <div class="card__meta">
-            Вчера 20:53
-            <img src="images/svgs/viewings.svg">
-            9897
-            <img src="images/svgs/comments.svg">
-            8
-          </div>
-        </div>
-
-        <div class="card card--small s6">
-          <a href="">
-            <img class="card__img" src="images/article-images/main-article.jpeg">
-          </a>
-          <span class="card__title">
-            <a href="">
-              Премьер постоянно информирует Токаева о ситуации с паводками
-            </a>
-          </span>
-          <div class="card__meta">
-            Вчера 20:53
-            <img src="images/svgs/viewings.svg">
-            9897
-            <img src="images/svgs/comments.svg">
-            8
-          </div>
-        </div>
       </section>
 
       <section class="scroll-news">

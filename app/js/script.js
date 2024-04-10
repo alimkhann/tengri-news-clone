@@ -3,167 +3,126 @@ const fs = require("fs");
 const path = require("path");
 
 const url = "https://tengrinews.kz/";
+const limit = 20; // Limit for the number of scroll articles to scrape
 
 const scrapeTengrinews = async () => {
-  try {
-    const browser = await puppeteer.launch({
-      headless: false,
-      userDataDir: "./dist/tmp",
-    });
+  const browser = await puppeteer.launch({
+    headless: true,
+    userDataDir: "./dist/tmp",
+  });
+  const page = await browser.newPage();
 
-    const page = await browser.newPage();
-    await page.goto(url);
-
-    await page.waitForSelector(".main-news_super_item");
-
-    const result = await page.evaluate(async (url) => {
-      // Function to wait for element visibility
-      const waitForVisible = async (selector) => {
-        await new Promise((resolve) => {
-          const interval = setInterval(async () => {
-            const element = document.querySelector(selector);
-            if (
-              element &&
-              window.getComputedStyle(element).display !== "none"
-            ) {
-              clearInterval(interval);
-              resolve();
-            }
-          }, 20000);
-        });
-      };
-
-      const gridNewsData = [];
-      const gridNewsElements = document.querySelectorAll(
-        ".main-news_super_item"
-      );
-
-      for (const element of gridNewsElements) {
-        const titleElement = element.querySelector("span > a");
-        const timeElement = element.querySelector(
-          "div > span:nth-child(1) > time"
-        );
-        const imageElement = element.querySelector("picture source");
-
-        if (titleElement && timeElement && imageElement) {
-          const title = titleElement.innerText.trim();
-          const time = timeElement.innerText.trim();
-          const imageUrl =
-            url + imageElement.getAttribute("srcset").split(" ")[0];
-
-          // Wait for views and comments elements to be available
-          await waitForVisible(
-            ".main-news_super_item_meta > .content_item_meta_viewings > span[data-type='news']"
-          );
-          await waitForVisible(
-            ".main-news_super_item_meta > .content_item_meta_comments > span[data-type='news']"
-          );
-
-          const viewsElement = element.querySelector(
-            ".main-news_super_item_meta > .content_item_meta_viewings > span[data-type='news']"
-          );
-          const commentsElement = element.querySelector(
-            ".main-news_super_item_meta > .content_item_meta_comments > span[data-type='news']"
-          );
-
-          const views = viewsElement ? viewsElement.innerText.trim() : "N/A";
-          const comments = commentsElement
-            ? commentsElement.innerText.trim()
-            : "N/A";
-
-          gridNewsData.push({ title, time, views, comments, imageUrl });
-        }
-      }
-
-      const scrollNewsData = [];
-      const scrollNewsElements = document.querySelectorAll("div.tab");
-
-      for (const element of scrollNewsElements) {
-        const titleElement = element.querySelector(
-          "#content-1 > div:nth-child(1) > span > a"
-        );
-        const timeElement = element.querySelector(
-          "#content-1 > div:nth-child(1) > div > span:nth-child(1) > time"
-        );
-
-        if (titleElement && timeElement) {
-          const title = titleElement.innerText.trim();
-          const time = timeElement.innerText.trim();
-
-          // Wait for views and comments elements to be visible
-          await waitForVisible(
-            ".main-news_top_item_meta .content_item_meta_viewings span"
-          );
-          await waitForVisible(
-            ".main-news_top_item_meta .content_item_meta_comments span"
-          );
-
-          const viewsElement = element.querySelector(
-            ".main-news_top_item_meta .content_item_meta_viewings span"
-          );
-          const commentsElement = element.querySelector(
-            ".main-news_top_item_meta .content_item_meta_comments span"
-          );
-
-          const views = viewsElement ? viewsElement.innerText.trim() : "N/A";
-          const comments = commentsElement
-            ? commentsElement.innerText.trim()
-            : "N/A";
-
-          scrollNewsData.push({ title, time, views, comments });
-        }
-      }
-
-      return { gridNewsData, scrollNewsData };
-    }, url);
-
-    for (const item of result.gridNewsData) {
-      const imageUrl = url + item.imageUrl;
-      const imageName = imageUrl.substring(imageUrl.lastIndexOf("/") + 1);
-      const imagePath = path.join("./images/scraped-images", imageName);
-
-      try {
-        const viewSource = await page.goto(imageUrl);
-        fs.writeFileSync(imagePath, await viewSource.buffer());
-        console.log(`Image downloaded: ${imagePath}`);
-      } catch (error) {
-        console.error(`Error downloading image: ${imageUrl}`, error);
-      }
+  // Set up browser environment for faster page load
+  await page.setRequestInterception(true);
+  page.on("request", (request) => {
+    if (
+      request.resourceType() === "image" ||
+      request.resourceType() === "stylesheet"
+    ) {
+      request.abort();
+    } else {
+      request.continue();
     }
+  });
 
-    await browser.close();
+  // Navigate to the website
+  await page.goto(url, { waitUntil: "domcontentloaded" });
 
-    // Convert the data to CSV string
-    const csvData = result.gridNewsData.map(
-      ({ title, time, views, comments, imageUrl }) =>
-        `"${title}","${time}","${views}","${comments}","${imageUrl}"`
-    );
-    const csvString = csvData.join("\n");
+  // Scrape grid view news articles
+  const gridArticles = await page.evaluate((url) => {
+    const articles = [];
+    document.querySelectorAll(".main-news_super_item").forEach(async (item) => {
+      const titleElement = item.querySelector(".main-news_super_item_title a");
+      const title = titleElement ? titleElement.innerText : "";
 
-    // Write the CSV string to a file
-    const filePathCSV = path.join("./dist/", "scraped_data.csv");
-    fs.writeFileSync(filePathCSV, csvString);
-    console.log(`Data exported to CSV file: ${filePathCSV}`);
+      const articleUrlElement = item.querySelector(
+        ".main-news_super_item_title a"
+      );
+      const articleUrl = articleUrlElement ? articleUrlElement.href : "";
 
-    // Write the data to a JSON file
-    const filePathJSON = path.join("./dist/", "scraped_data.json");
-    fs.writeFileSync(
-      filePathJSON,
-      JSON.stringify(result.gridNewsData, null, 2)
-    );
-    console.log(`Data exported to JSON file: ${filePathJSON}`);
+      const timeElement = item.querySelector("time");
+      const time = timeElement ? timeElement.innerText : "";
 
-    return result;
-  } catch (error) {
-    console.error("Error during scraping:", error);
-    return [];
+      const imageUrlElement = item.querySelector("picture source");
+      const imageUrl = imageUrlElement
+        ? url + imageUrlElement.getAttribute("srcset")
+        : "";
+
+      const viewsElement = item.querySelector(".content_item_meta_viewings");
+      const views = viewsElement ? viewsElement.innerText.trim() : "";
+
+      const commentsElement = item.querySelector(".content_item_meta_comments");
+      const comments = commentsElement ? commentsElement.innerText.trim() : "";
+
+      articles.push({ title, articleUrl, time, imageUrl, views, comments });
+    });
+    return articles;
+  }, url);
+
+  // Scrape scroll view news articles
+  const scrollArticles = await page.evaluate(async (limit) => {
+    const articles = [];
+    const scrollItems = document.querySelectorAll(".main-news_top_item");
+    for (let i = 0; i < Math.min(limit, scrollItems.length); i++) {
+      const item = scrollItems[i];
+      const titleElement = item.querySelector(".main-news_top_item_title a");
+      const title = titleElement ? titleElement.innerText : "";
+
+      const articleUrlElement = item.querySelector(
+        ".main-news_top_item_title a"
+      );
+      const articleUrl = articleUrlElement ? articleUrlElement.href : "";
+
+      const timeElement = item.querySelector("time");
+      const time = timeElement ? timeElement.innerText : "";
+
+      // Wait for views and comments elements to be visible
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      const viewsElement = item.querySelector(".content_item_meta_viewings");
+      const views = viewsElement ? viewsElement.innerText.trim() : "";
+
+      const commentsElement = item.querySelector(".content_item_meta_comments");
+      const comments = commentsElement ? commentsElement.innerText.trim() : "";
+
+      articles.push({ title, articleUrl, time, views, comments });
+    }
+    return articles;
+  }, limit);
+
+  // Combine both sets of articles
+  const allArticles = {
+    gridView: gridArticles,
+    scrollView: scrollArticles,
+  };
+
+  // Write data to a JSON file
+  fs.writeFileSync(
+    "./dist/articles_data.json",
+    JSON.stringify(allArticles, null, 2)
+  );
+
+  // Download images
+  const imageDir = "./images/scraped-images";
+  if (!fs.existsSync(imageDir)) {
+    fs.mkdirSync(imageDir);
   }
+
+  const downloadImage = async (url, filename) => {
+    const viewSource = await page.goto(url);
+    fs.writeFileSync(path.join(imageDir, filename), await viewSource.buffer());
+  };
+
+  for (const article of allArticles.gridView) {
+    if (article.imageUrl) {
+      const imageName = article.imageUrl.split("/").pop();
+      await downloadImage(article.imageUrl, imageName);
+    }
+  }
+
+  await browser.close();
 };
 
-scrapeTengrinews()
-  .then((value) => {
-    console.log(value);
-  })
-  .catch((error) => {
-    console.error("Error during scraping:", error);
-  });
+scrapeTengrinews().catch((error) => {
+  console.error("Error during scraping:", error);
+});
