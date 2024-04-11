@@ -25,11 +25,15 @@ Level 3:
 
 ## Установка
 
-`git clone https://github.com/alimkhann/tengri-news-clone.git`
-
-`npm install gulp-cli -g`
-
-`npm install @babel/core @babel/preset-env autoprefixer postcss puppeteer browser-sync cssnano dart-sass sass gulp gulp-babel gulp-postcss gulp-sass gulp-terser express`
+```
+git clone https://github.com/alimkhann/tengri-news-clone.git
+```
+```
+npm install gulp-cli -g
+```
+```
+npm install @babel/core @babel/preset-env autoprefixer postcss puppeteer browser-sync cssnano dart-sass sass gulp gulp-babel gulp-postcss gulp-sass gulp-terser express
+```
 
 ## Проблемы
 
