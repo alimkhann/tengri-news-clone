@@ -96,8 +96,11 @@ const scrapeTengrinews = async () => {
       const time = timeElement ? timeElement.innerText : "";
 
       const imageUrlElement = item.querySelector("picture source");
+      const videoElement = item.querySelector("video");
       const imageUrl = imageUrlElement
         ? url + imageUrlElement.getAttribute("srcset")
+        : videoElement
+        ? url + videoElement.querySelector("source").getAttribute("src")
         : "";
 
       // Wait for views and comments elements to be visible
@@ -215,37 +218,6 @@ const scrapeTengrinews = async () => {
   console.log(
     `Article details writing complete (${
       (articleDetailsWriteEndTime - articleDetailsWriteStartTime) / 1000
-    } seconds)`
-  );
-
-  // Download images
-  console.log("Downloading images...");
-  const imageDownloadStartTime = Date.now();
-  if (!fs.existsSync(imageDir)) {
-    fs.mkdirSync(imageDir);
-  }
-
-  for (const article of allArticles.gridView) {
-    if (article.imageUrl) {
-      const imageName = article.imageUrl.split("/").pop();
-      await downloadImage(page, article.imageUrl, imageName);
-    }
-  }
-  const imageDownloadEndTime = Date.now();
-  console.log(
-    `Image downloading complete (${
-      (imageDownloadEndTime - imageDownloadStartTime) / 1000
-    } seconds)`
-  );
-
-  // Clean up unnecessary images
-  console.log("Cleaning up images...");
-  const cleanupStartTime = Date.now();
-  cleanupImages();
-  const cleanupEndTime = Date.now();
-  console.log(
-    `Image cleanup complete (${
-      (cleanupEndTime - cleanupStartTime) / 1000
     } seconds)`
   );
 
