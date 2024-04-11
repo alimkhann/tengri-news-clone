@@ -101,7 +101,7 @@ const scrapeTengrinews = async () => {
         : "";
 
       // Wait for views and comments elements to be visible
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 2000));
 
       const viewsElement = item.querySelector(".content_item_meta_viewings");
       const views = viewsElement ? viewsElement.innerText.trim() : "";
@@ -166,7 +166,7 @@ const scrapeTengrinews = async () => {
   };
 
   // Write data to a JSON file
-  console.log("Writing data to JSON file...");
+  console.log("Writing articles data to JSON file...");
   const jsonWriteStartTime = Date.now();
   fs.writeFileSync(
     "./dist/articles_data.json",
@@ -176,6 +176,45 @@ const scrapeTengrinews = async () => {
   console.log(
     `JSON file writing complete (${
       (jsonWriteEndTime - jsonWriteStartTime) / 1000
+    } seconds)`
+  );
+
+  console.log("Scraping article details...");
+  const articleDetailsStartTime = Date.now();
+  const gridArticlesDetails = [];
+  for (const article of allArticles.gridView) {
+    const details = await scrapeArticleDetails(page, article.articleUrl);
+    gridArticlesDetails.push(details);
+  }
+  const scrollArticlesDetails = [];
+  for (const article of allArticles.scrollView) {
+    const details = await scrapeArticleDetails(page, article.articleUrl);
+    scrollArticlesDetails.push(details);
+  }
+  const articleDetailsEndTime = Date.now();
+  console.log(
+    `Article details scraping complete (${
+      (articleDetailsEndTime - articleDetailsStartTime) / 1000
+    } seconds)`
+  );
+
+  // Combine both sets of article details
+  const allArticlesDetails = {
+    gridViewDetails: gridArticlesDetails,
+    scrollViewDetails: scrollArticlesDetails,
+  };
+
+  // Write article details to a separate JSON file
+  console.log("Writing article details to JSON file...");
+  const articleDetailsWriteStartTime = Date.now();
+  fs.writeFileSync(
+    "./dist/article_details.json",
+    JSON.stringify(allArticlesDetails, null, 2)
+  );
+  const articleDetailsWriteEndTime = Date.now();
+  console.log(
+    `Article details writing complete (${
+      (articleDetailsWriteEndTime - articleDetailsWriteStartTime) / 1000
     } seconds)`
   );
 
@@ -234,5 +273,96 @@ scrapeTengrinews()
     const totalTime = (endTime - startTime) / 1000;
     console.log(`Total execution time: ${totalTime} seconds`);
   });
+
+const scrapeArticleDetails = async (page, articleUrl) => {
+  console.log(`Scraping article details for: ${articleUrl}`);
+  await page.goto(articleUrl, { waitUntil: "domcontentloaded" });
+
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+
+  // Extract date
+  let date = "";
+  try {
+    date = await page.$eval(".date-time", (element) =>
+      element.innerText.trim()
+    );
+  } catch (error) {
+    console.error("Date not found for:", articleUrl);
+  }
+
+  // Extract author name
+  let authorName = "";
+  try {
+    authorName = await page.$eval(
+      ".content_main_meta_author_item a",
+      (element) => element.innerText.trim()
+    );
+  } catch (error) {
+    console.error("Author name not found for:", articleUrl);
+  }
+
+  // Extract author photo
+  let authorPhoto = "";
+  try {
+    authorPhoto = await page.$eval(
+      ".content_main_meta_author_item_photo img",
+      (element) => element.src
+    );
+  } catch (error) {
+    console.error("Author photo not found for:", articleUrl);
+  }
+
+  // Extract photo source
+  let photoSource = "";
+  try {
+    photoSource = await page.$eval(".content_main_thumb_alt", (element) =>
+      element.innerText.trim()
+    );
+  } catch (error) {
+    console.error("Photo source not found for:", articleUrl);
+  }
+
+  // Extract article description
+  let articleDescription = "";
+  try {
+    articleDescription = await page.$eval(".content_main_desc p", (element) =>
+      element.innerText.trim()
+    );
+  } catch (error) {
+    console.error("Article description not found for:", articleUrl);
+  }
+
+  // Extract article main text
+  let mainText = "";
+  try {
+    mainText = await page.$eval(
+      ".content_main_text",
+      (element) => element.innerHTML
+    );
+  } catch (error) {
+    console.error("Main text not found for:", articleUrl);
+  }
+
+  // Extract main text tags
+  let mainTextTags = [];
+  try {
+    mainTextTags = await page.$$eval(
+      ".content_main_text_tags span a",
+      (elements) => elements.map((element) => element.innerText.trim())
+    );
+  } catch (error) {
+    console.error("Main text tags not found for:", articleUrl);
+  }
+
+  return {
+    date,
+    authorName,
+    authorPhoto,
+    photoSource,
+    articleDescription,
+    mainText,
+    mainTextTags,
+  };
+};
 
 module.exports = scrapeTengrinews;
