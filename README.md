@@ -35,6 +35,12 @@ npm install gulp-cli -g
 npm install @babel/core @babel/preset-env autoprefixer postcss puppeteer browser-sync cssnano dart-sass sass gulp gulp-babel gulp-postcss gulp-sass gulp-terser express
 ```
 
+Запуск
+
+```
+gulp
+```
+
 ## Проблемы
 
 Не вышло сделать переход с главной страницы на свой сайт с детальной информацией.
