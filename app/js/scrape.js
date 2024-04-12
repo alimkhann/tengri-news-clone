@@ -1,40 +1,8 @@
 const puppeteer = require("puppeteer");
 const fs = require("fs");
-const path = require("path");
 
 const url = "https://tengrinews.kz/";
 const limit = 50; // Limit for the number of scroll articles to scrape
-const imageDir = "./images/scraped-images";
-
-const downloadImage = async (page, imageUrl, filename) => {
-  console.log(`Downloading image: ${filename}`);
-  const viewSource = await page.goto(imageUrl);
-  fs.writeFileSync(path.join(imageDir, filename), await viewSource.buffer());
-  console.log(`Image downloaded: ${filename}`);
-};
-
-const cleanupImages = () => {
-  console.log("Cleaning up unnecessary images...");
-  const imageFilenames = [];
-  // Extract image filenames from JSON
-  const allArticles = JSON.parse(fs.readFileSync("./dist/articles_data.json"));
-  for (const article of allArticles.gridView) {
-    if (article.imageUrl) {
-      const imageName = article.imageUrl.split("/").pop();
-      imageFilenames.push(imageName);
-    }
-  }
-
-  // Delete unnecessary images
-  const files = fs.readdirSync(imageDir);
-  for (const file of files) {
-    if (!imageFilenames.includes(file)) {
-      fs.unlinkSync(path.join(imageDir, file));
-      console.log(`Deleted ${file}`);
-    }
-  }
-  console.log("Image cleanup complete.");
-};
 
 const scrapeTengrinews = async () => {
   console.log("Launching browser...");
