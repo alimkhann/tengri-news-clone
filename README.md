@@ -35,7 +35,12 @@ npm install gulp-cli -g
 npm install @babel/core @babel/preset-env autoprefixer postcss puppeteer browser-sync cssnano dart-sass sass gulp gulp-babel gulp-postcss gulp-sass gulp-terser express
 ```
 
-Запуск
+## Запуск
+
+```
+node .\app\js\scrape.js
+```
+
 
 ```
 gulp
